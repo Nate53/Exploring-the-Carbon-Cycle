@@ -304,48 +304,49 @@
         }
 
         .atmosphere-pool {
-            top: 5%;
+            top: 4%;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(135, 206, 235, 0.9);
+            background: rgba(135, 206, 235, 0.95);
             color: #1a1a2e;
             border: 3px solid #4a90a4;
+            min-width: 120px;
         }
 
         .vegetation-pool {
-            top: 35%;
-            left: 15%;
-            background: rgba(34, 139, 34, 0.9);
+            top: 32%;
+            left: 8%;
+            background: rgba(34, 139, 34, 0.95);
             color: #fff;
             border: 3px solid #1a6b1a;
         }
 
         .soil-pool {
             top: 55%;
-            left: 15%;
-            background: rgba(139, 69, 19, 0.9);
+            left: 8%;
+            background: rgba(139, 69, 19, 0.95);
             color: #fff;
             border: 3px solid #5c3a11;
         }
 
         .ocean-surface {
-            top: 35%;
-            right: 10%;
-            background: rgba(0, 105, 148, 0.9);
+            top: 32%;
+            right: 6%;
+            background: rgba(0, 105, 148, 0.95);
             color: #fff;
             border: 3px solid #004466;
         }
 
         .deep-ocean {
-            top: 70%;
-            right: 10%;
-            background: rgba(0, 51, 102, 0.9);
+            top: 55%;
+            right: 6%;
+            background: rgba(0, 51, 102, 0.95);
             color: #fff;
             border: 3px solid #001a33;
         }
 
         .fossil-pool {
-            bottom: 5%;
+            bottom: 4%;
             left: 50%;
             transform: translateX(-50%);
             background: rgba(50, 50, 50, 0.95);
@@ -354,9 +355,9 @@
         }
 
         .sediment-pool {
-            bottom: 5%;
-            left: 10%;
-            background: rgba(100, 80, 60, 0.9);
+            bottom: 4%;
+            right: 6%;
+            background: rgba(100, 80, 60, 0.95);
             color: #fff;
             border: 3px solid #4a3a2a;
         }
@@ -371,12 +372,6 @@
             pointer-events: none;
         }
 
-        .flux-arrow {
-            stroke-width: 3;
-            fill: none;
-            opacity: 0.8;
-        }
-
         .flux-natural {
             stroke: #00ff88;
         }
@@ -385,20 +380,64 @@
             stroke: #ff6b6b;
         }
 
-        .flux-label {
-            font-size: 12px;
-            fill: #fff;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-        }
-
         /* Animated CO2 particles */
         .co2-particle {
             position: absolute;
             width: 8px;
             height: 8px;
-            background: rgba(255, 100, 100, 0.8);
             border-radius: 50%;
             pointer-events: none;
+            z-index: 5;
+            opacity: 0;
+        }
+
+        @keyframes particleMove {
+            0% { opacity: 0; offset-distance: 0%; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; offset-distance: 100%; }
+        }
+
+        .flux-arrow {
+            stroke-width: 3;
+            fill: none;
+            opacity: 0.7;
+            cursor: pointer;
+            pointer-events: stroke;
+            transition: opacity 0.3s, stroke-width 0.3s;
+        }
+
+        .flux-arrow:hover {
+            opacity: 1;
+            stroke-width: 5;
+        }
+
+        .flux-arrow.highlighted {
+            opacity: 1;
+            stroke-width: 5;
+            filter: drop-shadow(0 0 6px currentColor);
+        }
+
+        .flux-label {
+            font-size: 11px;
+            fill: #fff;
+            pointer-events: none;
+            paint-order: stroke;
+            stroke: rgba(0,0,0,0.7);
+            stroke-width: 3px;
+            font-weight: bold;
+        }
+
+        .carbon-pool.highlighted {
+            transform: scale(1.1);
+            z-index: 25;
+            box-shadow: 0 0 20px rgba(0,255,136,0.6);
+        }
+
+        .carbon-pool .pool-flux-hint {
+            font-size: 0.7rem;
+            opacity: 0.8;
+            margin-top: 3px;
         }
 
         /* Info Panel */
@@ -1718,6 +1757,291 @@
 
         document.querySelectorAll('.pools-grid').forEach(grid => {
             observer.observe(grid);
+        });
+
+        // =============================================
+        // INTERACTIVE DIAGRAM: Flux arrows & particles
+        // =============================================
+        const diagramCanvas = document.getElementById('diagramCanvas');
+        const fluxSvg = document.getElementById('fluxSvg');
+        const fluxInfoPanel = document.getElementById('flux-info');
+
+        // Get center coordinates of a pool element relative to the diagram canvas
+        function getPoolCenter(poolId) {
+            const pool = document.getElementById(poolId);
+            if (!pool || !diagramCanvas) return { x: 0, y: 0 };
+            const pRect = pool.getBoundingClientRect();
+            const cRect = diagramCanvas.getBoundingClientRect();
+            return {
+                x: pRect.left - cRect.left + pRect.width / 2,
+                y: pRect.top - cRect.top + pRect.height / 2
+            };
+        }
+
+        // Define all carbon fluxes
+        const fluxes = [
+            { id: 'photosynthesis', from: 'pool-atmosphere', to: 'pool-vegetation', rate: '120 Gt C/yr', label: 'Photosynthesis', type: 'natural',
+              desc: 'Plants, algae, and cyanobacteria absorb CO\u2082 from the atmosphere and convert it into organic carbon compounds using sunlight energy. This is the largest flux removing carbon from the atmosphere.' },
+            { id: 'plant-respiration', from: 'pool-vegetation', to: 'pool-atmosphere', rate: '60 Gt C/yr', label: 'Plant Respiration', type: 'natural',
+              desc: 'Plants break down organic molecules for energy, releasing about half the carbon they fix back to the atmosphere as CO\u2082.' },
+            { id: 'litter-fall', from: 'pool-vegetation', to: 'pool-soil', rate: '60 Gt C/yr', label: 'Litter & Decomp', type: 'natural',
+              desc: 'Dead leaves, branches, and roots fall to the ground and are gradually incorporated into the soil by decomposers.' },
+            { id: 'soil-respiration', from: 'pool-soil', to: 'pool-atmosphere', rate: '60 Gt C/yr', label: 'Soil Respiration', type: 'natural',
+              desc: 'Soil microbes and fungi decompose organic matter, releasing CO\u2082. Rate increases with temperature and moisture.' },
+            { id: 'ocean-uptake', from: 'pool-atmosphere', to: 'pool-surface-ocean', rate: '90 Gt C/yr', label: 'Ocean Uptake', type: 'natural',
+              desc: 'CO\u2082 dissolves into cold surface ocean waters. The ocean absorbs more CO\u2082 at high latitudes where water is cold.' },
+            { id: 'ocean-release', from: 'pool-surface-ocean', to: 'pool-atmosphere', rate: '88 Gt C/yr', label: 'Ocean Release', type: 'natural',
+              desc: 'Warm surface waters release dissolved CO\u2082 back to the atmosphere, especially in tropical regions.' },
+            { id: 'deep-mixing', from: 'pool-surface-ocean', to: 'pool-deep-ocean', rate: '2 Gt C/yr', label: 'Deep Mixing', type: 'natural',
+              desc: 'Carbon-rich surface water sinks to the deep ocean at high latitudes (thermohaline circulation) and dead organisms sink (biological pump).' },
+            { id: 'sedimentation', from: 'pool-deep-ocean', to: 'pool-sediments', rate: '0.2 Gt C/yr', label: 'Sedimentation', type: 'natural',
+              desc: 'Shells and dead organisms that sink to the ocean floor slowly accumulate as sediment, eventually forming limestone over millions of years.' },
+            { id: 'fossil-burning', from: 'pool-fossil', to: 'pool-atmosphere', rate: '~10 Gt C/yr', label: 'Fossil Fuel Burning', type: 'human',
+              desc: 'Burning coal, oil, and natural gas releases ancient carbon to the atmosphere. This is the largest human contribution to the carbon cycle.' },
+            { id: 'deforestation', from: 'pool-vegetation', to: 'pool-atmosphere', rate: '~1.5 Gt C/yr', label: 'Deforestation', type: 'human',
+              desc: 'Clearing and burning forests releases stored carbon rapidly. Tropical deforestation is the main contributor.' }
+        ];
+
+        function drawFluxArrows() {
+            // Clear existing SVG content
+            fluxSvg.innerHTML = '';
+
+            // Add arrowhead markers
+            const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+
+            ['natural', 'human'].forEach(type => {
+                const marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+                marker.setAttribute('id', 'arrow-' + type);
+                marker.setAttribute('viewBox', '0 0 10 10');
+                marker.setAttribute('refX', '8');
+                marker.setAttribute('refY', '5');
+                marker.setAttribute('markerWidth', '8');
+                marker.setAttribute('markerHeight', '8');
+                marker.setAttribute('orient', 'auto-start-reverse');
+
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('d', 'M 0 0 L 10 5 L 0 10 z');
+                path.setAttribute('fill', type === 'natural' ? '#00ff88' : '#ff6b6b');
+                marker.appendChild(path);
+                defs.appendChild(marker);
+            });
+
+            fluxSvg.appendChild(defs);
+
+            fluxes.forEach(flux => {
+                const from = getPoolCenter(flux.from);
+                const to = getPoolCenter(flux.to);
+
+                // Calculate a curved path with offset for bidirectional arrows
+                const dx = to.x - from.x;
+                const dy = to.y - from.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                // Perpendicular offset for curve
+                const nx = -dy / dist;
+                const ny = dx / dist;
+                const curveAmount = dist * 0.2;
+
+                const cx = (from.x + to.x) / 2 + nx * curveAmount;
+                const cy = (from.y + to.y) / 2 + ny * curveAmount;
+
+                const pathD = `M ${from.x} ${from.y} Q ${cx} ${cy} ${to.x} ${to.y}`;
+
+                // Draw the arrow path
+                const pathEl = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                pathEl.setAttribute('d', pathD);
+                pathEl.setAttribute('class', 'flux-arrow flux-' + flux.type);
+                pathEl.setAttribute('stroke', flux.type === 'natural' ? '#00ff88' : '#ff6b6b');
+                pathEl.setAttribute('marker-end', `url(#arrow-${flux.type})`);
+                pathEl.setAttribute('data-flux-id', flux.id);
+                pathEl.style.pointerEvents = 'stroke';
+                fluxSvg.appendChild(pathEl);
+
+                // Add label at midpoint of curve
+                const labelX = cx;
+                const labelY = cy;
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', labelX);
+                text.setAttribute('y', labelY);
+                text.setAttribute('class', 'flux-label');
+                text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('dominant-baseline', 'middle');
+                text.textContent = flux.label;
+                fluxSvg.appendChild(text);
+
+                // Click handler for the arrow
+                pathEl.addEventListener('click', () => showFluxInfo(flux));
+            });
+        }
+
+        // Show flux info in the panel below the diagram
+        function showFluxInfo(flux) {
+            const color = flux.type === 'natural' ? '#00ff88' : '#ff6b6b';
+            const typeLabel = flux.type === 'natural' ? 'Natural Process' : 'Human-caused';
+
+            fluxInfoPanel.innerHTML = `
+                <h3 style="color: ${color};">${flux.label}</h3>
+                <p style="margin-bottom: 10px;"><strong style="color: ${color};">${flux.rate}</strong> &mdash; <em>${typeLabel}</em></p>
+                <p>${flux.desc}</p>
+                <p style="margin-top: 15px; color: #888; font-size: 0.9rem;">Click other arrows or pools to explore more fluxes.</p>
+            `;
+
+            // Highlight the clicked arrow
+            document.querySelectorAll('.flux-arrow').forEach(a => a.classList.remove('highlighted'));
+            const arrow = fluxSvg.querySelector(`[data-flux-id="${flux.id}"]`);
+            if (arrow) arrow.classList.add('highlighted');
+
+            // Highlight connected pools
+            document.querySelectorAll('.carbon-pool').forEach(p => p.classList.remove('highlighted'));
+            document.getElementById(flux.from)?.classList.add('highlighted');
+            document.getElementById(flux.to)?.classList.add('highlighted');
+        }
+
+        // Click handlers for pools in the diagram
+        const diagramPoolInfo = {
+            'pool-atmosphere': {
+                title: 'Atmosphere (860 Gt C)',
+                desc: 'CO\u2082 and CH\u2084 in the air. The smallest active pool but most critical for climate. Changes here directly drive global warming. CO\u2082 has risen ~50% since pre-industrial times.',
+                fluxes: ['photosynthesis', 'plant-respiration', 'soil-respiration', 'ocean-uptake', 'ocean-release', 'fossil-burning', 'deforestation']
+            },
+            'pool-vegetation': {
+                title: 'Terrestrial Vegetation (550 Gt C)',
+                desc: 'Carbon stored in living plants. Forests are the largest stores, with tropical forests holding the most. Absorbs CO\u2082 via photosynthesis, releases via respiration.',
+                fluxes: ['photosynthesis', 'plant-respiration', 'litter-fall', 'deforestation']
+            },
+            'pool-soil': {
+                title: 'Soils (2,000 Gt C)',
+                desc: 'Dead organic matter, humus, and soil organisms. Contains 2-3x more carbon than the atmosphere. Permafrost soils hold ancient carbon at risk of release as climate warms.',
+                fluxes: ['litter-fall', 'soil-respiration']
+            },
+            'pool-surface-ocean': {
+                title: 'Surface Ocean (900 Gt C)',
+                desc: 'Dissolved CO\u2082 and marine life in the upper ~100m. Exchanges CO\u2082 rapidly with the atmosphere. Cold waters absorb CO\u2082 (sink), warm waters release it (source).',
+                fluxes: ['ocean-uptake', 'ocean-release', 'deep-mixing']
+            },
+            'pool-deep-ocean': {
+                title: 'Deep Ocean (37,000 Gt C)',
+                desc: 'Dissolved inorganic carbon in deep waters. The largest active reservoir. Carbon arrives via sinking cold water and dead organisms. Exchange with surface takes centuries.',
+                fluxes: ['deep-mixing', 'sedimentation']
+            },
+            'pool-fossil': {
+                title: 'Fossil Fuels (4,000 Gt C)',
+                desc: 'Coal, oil, and natural gas formed from ancient organisms over millions of years. Burning returns this locked carbon to the atmosphere at ~10 Gt C/year.',
+                fluxes: ['fossil-burning']
+            },
+            'pool-sediments': {
+                title: 'Marine Sediments (~6,000,000 Gt C)',
+                desc: 'Calcium carbonate (limestone) and organic carbon on the ocean floor. Forms over millions of years from shells and dead organisms. The ultimate long-term carbon store.',
+                fluxes: ['sedimentation']
+            }
+        };
+
+        document.querySelectorAll('.carbon-pool').forEach(pool => {
+            pool.addEventListener('click', () => {
+                const info = diagramPoolInfo[pool.id];
+                if (!info) return;
+
+                // Highlight this pool
+                document.querySelectorAll('.carbon-pool').forEach(p => p.classList.remove('highlighted'));
+                pool.classList.add('highlighted');
+
+                // Highlight connected arrows
+                document.querySelectorAll('.flux-arrow').forEach(a => a.classList.remove('highlighted'));
+                info.fluxes.forEach(fId => {
+                    const arrow = fluxSvg.querySelector(`[data-flux-id="${fId}"]`);
+                    if (arrow) arrow.classList.add('highlighted');
+                });
+
+                // Build flux list
+                const connectedFluxes = fluxes.filter(f => info.fluxes.includes(f.id));
+                const fluxListHtml = connectedFluxes.map(f => {
+                    const color = f.type === 'natural' ? '#00ff88' : '#ff6b6b';
+                    return `<li style="color: #ccc;"><span style="color: ${color};">${f.label}:</span> ${f.rate}</li>`;
+                }).join('');
+
+                fluxInfoPanel.innerHTML = `
+                    <h3 style="color: #00d4ff;">${info.title}</h3>
+                    <p style="margin-bottom: 15px;">${info.desc}</p>
+                    <h4 style="color: #00ff88; margin-bottom: 8px;">Connected Fluxes:</h4>
+                    <ul style="line-height: 1.8; padding-left: 20px;">${fluxListHtml}</ul>
+                `;
+            });
+        });
+
+        // Animated particles along flux paths
+        function createParticles() {
+            const canvas = document.getElementById('diagramCanvas');
+            if (!canvas) return;
+
+            // Remove old particles
+            canvas.querySelectorAll('.co2-particle').forEach(p => p.remove());
+
+            fluxes.forEach(flux => {
+                const from = getPoolCenter(flux.from);
+                const to = getPoolCenter(flux.to);
+                const dx = to.x - from.x;
+                const dy = to.y - from.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                const nx = -dy / dist;
+                const ny = dx / dist;
+                const curveAmount = dist * 0.2;
+                const cx = (from.x + to.x) / 2 + nx * curveAmount;
+                const cy = (from.y + to.y) / 2 + ny * curveAmount;
+
+                // Number of particles proportional to flux rate
+                const rateNum = parseFloat(flux.rate) || 1;
+                const numParticles = Math.min(Math.max(Math.round(rateNum / 15), 1), 5);
+
+                for (let i = 0; i < numParticles; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'co2-particle';
+                    particle.style.background = flux.type === 'natural'
+                        ? 'rgba(0, 255, 136, 0.9)'
+                        : 'rgba(255, 107, 107, 0.9)';
+                    particle.style.boxShadow = flux.type === 'natural'
+                        ? '0 0 6px rgba(0,255,136,0.6)'
+                        : '0 0 6px rgba(255,107,107,0.6)';
+                    particle.style.offsetPath = `path('M ${from.x} ${from.y} Q ${cx} ${cy} ${to.x} ${to.y}')`;
+                    particle.style.offsetRotate = '0deg';
+
+                    const duration = 3 + Math.random() * 2;
+                    const delay = i * (duration / numParticles) + Math.random() * 0.5;
+                    particle.style.animation = `particleMove ${duration}s ${delay}s ease-in-out infinite`;
+
+                    canvas.appendChild(particle);
+                }
+            });
+        }
+
+        // Draw arrows and particles when the interactive tab is shown
+        function initDiagram() {
+            // Small delay to let layout settle
+            setTimeout(() => {
+                drawFluxArrows();
+                createParticles();
+            }, 100);
+        }
+
+        // Redraw on window resize
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                if (document.getElementById('interactive').classList.contains('active')) {
+                    drawFluxArrows();
+                    createParticles();
+                }
+            }, 200);
+        });
+
+        // Hook into tab switching to init diagram
+        const origTabHandler = tabBtns.forEach.bind(tabBtns);
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (btn.dataset.tab === 'interactive') {
+                    initDiagram();
+                }
+            });
         });
     </script>
 </body>
