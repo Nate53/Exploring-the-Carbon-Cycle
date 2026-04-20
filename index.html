@@ -22,11 +22,43 @@
             max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
+            position: relative;
         }
 
         header {
             text-align: center;
             padding: 20px 0 30px;
+        }
+
+        .brand-logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(0, 212, 255, 0.25);
+            z-index: 5;
+        }
+
+        @media (max-width: 900px) {
+            .brand-logo {
+                width: 64px;
+                height: 64px;
+                top: 14px;
+                left: 14px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .brand-logo {
+                position: static;
+                display: block;
+                margin: 0 auto 10px;
+                width: 72px;
+                height: 72px;
+            }
         }
 
         header h1 {
@@ -942,6 +974,7 @@
 </head>
 <body>
     <div class="container">
+        <img src="laughing-coyote-logo.jpg" alt="Laughing Coyote Education" class="brand-logo">
         <header>
             <h1>The Carbon Cycle</h1>
             <p>Understanding Earth's Carbon Balance - From Natural Cycles to Human Impact</p>
