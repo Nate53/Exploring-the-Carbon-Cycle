@@ -673,6 +673,149 @@
             margin-bottom: 10px;
         }
 
+        /* Essay Section */
+        .essay-section-header {
+            text-align: center;
+            color: #00d4ff;
+            margin: 40px 0 20px;
+            font-size: 1.5rem;
+        }
+
+        .essay-question {
+            background: rgba(255,255,255,0.08);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .essay-question h4 {
+            color: #00ff88;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .essay-textarea {
+            width: 100%;
+            min-height: 180px;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 1rem;
+            line-height: 1.5;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+
+        .essay-textarea:focus {
+            outline: none;
+            border-color: #00d4ff;
+            background: rgba(0,212,255,0.05);
+        }
+
+        .show-answer-btn {
+            margin-top: 12px;
+            padding: 10px 20px;
+            background: rgba(0,212,255,0.15);
+            border: 1px solid #00d4ff;
+            border-radius: 20px;
+            color: #00d4ff;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+
+        .show-answer-btn:hover {
+            background: rgba(0,212,255,0.25);
+        }
+
+        .show-answer-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .model-answer {
+            display: none;
+            margin-top: 15px;
+            padding: 18px 20px;
+            background: rgba(0,255,136,0.08);
+            border-left: 3px solid #00ff88;
+            border-radius: 8px;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .model-answer.show {
+            display: block;
+        }
+
+        .model-answer h5 {
+            color: #00ff88;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .model-answer ol, .model-answer ul {
+            margin: 8px 0 8px 22px;
+        }
+
+        .model-answer li {
+            margin-bottom: 8px;
+        }
+
+        .compile-section {
+            margin-top: 40px;
+            padding: 25px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .compile-btn {
+            padding: 14px 35px;
+            background: linear-gradient(90deg, #00d4ff, #00ff88);
+            border: none;
+            border-radius: 25px;
+            color: #1a1a2e;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1.05rem;
+            transition: transform 0.2s;
+        }
+
+        .compile-btn:hover {
+            transform: scale(1.03);
+        }
+
+        .compile-status {
+            margin-top: 15px;
+            color: #00ff88;
+            font-size: 0.95rem;
+            min-height: 20px;
+        }
+
+        .student-name-input {
+            display: block;
+            margin: 0 auto 15px;
+            padding: 10px 15px;
+            width: 100%;
+            max-width: 350px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .student-name-input:focus {
+            outline: none;
+            border-color: #00d4ff;
+        }
+
         /* Legend */
         .legend {
             display: flex;
@@ -1234,10 +1377,10 @@
                 <div class="quiz-question" data-question="1">
                     <h4>1. Which carbon pool contains the MOST carbon?</h4>
                     <div class="quiz-options">
-                        <div class="quiz-option" data-answer="a">A) Atmosphere</div>
-                        <div class="quiz-option" data-answer="b">B) All the world's forests</div>
-                        <div class="quiz-option" data-answer="c">C) Deep ocean</div>
-                        <div class="quiz-option" data-answer="d">D) Sedimentary rocks (limestone)</div>
+                        <div class="quiz-option" data-answer="a">A) Sedimentary rocks (limestone)</div>
+                        <div class="quiz-option" data-answer="b">B) Deep ocean</div>
+                        <div class="quiz-option" data-answer="c">C) All the world's forests</div>
+                        <div class="quiz-option" data-answer="d">D) Atmosphere</div>
                     </div>
                     <div class="quiz-feedback"></div>
                 </div>
@@ -1257,9 +1400,9 @@
                     <h4>3. Why is burning fossil fuels problematic for the carbon cycle?</h4>
                     <div class="quiz-options">
                         <div class="quiz-option" data-answer="a">A) It creates new carbon atoms</div>
-                        <div class="quiz-option" data-answer="b">B) It releases carbon that was locked away for millions of years back to the atmosphere very quickly</div>
-                        <div class="quiz-option" data-answer="c">C) It destroys carbon permanently</div>
-                        <div class="quiz-option" data-answer="d">D) It has no effect on the carbon cycle</div>
+                        <div class="quiz-option" data-answer="b">B) It destroys carbon permanently</div>
+                        <div class="quiz-option" data-answer="c">C) It has no effect on the carbon cycle</div>
+                        <div class="quiz-option" data-answer="d">D) It releases carbon that was locked away for millions of years back to the atmosphere very quickly</div>
                     </div>
                     <div class="quiz-feedback"></div>
                 </div>
@@ -1278,10 +1421,10 @@
                 <div class="quiz-question" data-question="5">
                     <h4>5. Which process is part of the SLOW (geological) carbon cycle?</h4>
                     <div class="quiz-options">
-                        <div class="quiz-option" data-answer="a">A) Photosynthesis</div>
-                        <div class="quiz-option" data-answer="b">B) Animal respiration</div>
-                        <div class="quiz-option" data-answer="c">C) Weathering of silicate rocks</div>
-                        <div class="quiz-option" data-answer="d">D) Decomposition of dead leaves</div>
+                        <div class="quiz-option" data-answer="a">A) Weathering of silicate rocks</div>
+                        <div class="quiz-option" data-answer="b">B) Photosynthesis</div>
+                        <div class="quiz-option" data-answer="c">C) Decomposition of dead leaves</div>
+                        <div class="quiz-option" data-answer="d">D) Animal respiration</div>
                     </div>
                     <div class="quiz-feedback"></div>
                 </div>
@@ -1301,9 +1444,9 @@
                     <h4>7. Which of these is a carbon SINK (removes CO₂ from atmosphere)?</h4>
                     <div class="quiz-options">
                         <div class="quiz-option" data-answer="a">A) Volcanic eruptions</div>
-                        <div class="quiz-option" data-answer="b">B) Forest fires</div>
-                        <div class="quiz-option" data-answer="c">C) Growing forests</div>
-                        <div class="quiz-option" data-answer="d">D) Decomposing organisms</div>
+                        <div class="quiz-option" data-answer="b">B) Decomposing organisms</div>
+                        <div class="quiz-option" data-answer="c">C) Forest fires</div>
+                        <div class="quiz-option" data-answer="d">D) Growing forests</div>
                     </div>
                     <div class="quiz-feedback"></div>
                 </div>
@@ -1312,8 +1455,8 @@
                     <h4>8. What happens to ocean pH as it absorbs more CO₂?</h4>
                     <div class="quiz-options">
                         <div class="quiz-option" data-answer="a">A) pH increases (more basic)</div>
-                        <div class="quiz-option" data-answer="b">B) pH decreases (more acidic)</div>
-                        <div class="quiz-option" data-answer="c">C) pH stays the same</div>
+                        <div class="quiz-option" data-answer="b">B) pH stays the same</div>
+                        <div class="quiz-option" data-answer="c">C) pH decreases (more acidic)</div>
                         <div class="quiz-option" data-answer="d">D) pH fluctuates randomly</div>
                     </div>
                     <div class="quiz-feedback"></div>
@@ -1324,6 +1467,51 @@
                 <div class="score-display" id="scoreDisplay" style="display: none;">
                     <h3 id="scoreText">Your Score: 0/8</h3>
                     <p id="scoreMessage"></p>
+                </div>
+
+                <h3 class="essay-section-header">Free Response Questions</h3>
+
+                <div class="essay-question" data-essay="1">
+                    <h4>FRQ 1. Explain how increased carbon dioxide concentrations in the atmosphere cause warming. In your response, describe the underlying physical mechanism (the greenhouse effect) and at least one feedback that amplifies the warming.</h4>
+                    <textarea class="essay-textarea" id="essay1" placeholder="Write your response here. Aim for 4-6 sentences that walk through the mechanism step by step."></textarea>
+                    <button class="show-answer-btn" data-target="modelAnswer1">Show Model Answer</button>
+                    <div class="model-answer" id="modelAnswer1">
+                        <h5>Model Answer</h5>
+                        <ol>
+                            <li><strong>Solar energy in:</strong> The Sun emits mostly shortwave radiation (visible/UV), which passes through the atmosphere and is absorbed by Earth's surface, warming it.</li>
+                            <li><strong>Earth re-emits longwave radiation:</strong> The warm surface re-emits energy as longwave (infrared) radiation directed back out toward space.</li>
+                            <li><strong>CO₂ absorbs infrared:</strong> CO₂ molecules have vibrational modes (bond stretching and bending) that resonate at infrared wavelengths, so they absorb outgoing IR photons rather than letting them escape.</li>
+                            <li><strong>Re-radiation in all directions:</strong> Energized CO₂ molecules re-emit IR in all directions — including back down to the surface. This trapped energy raises the equilibrium temperature of the lower atmosphere and surface (the <em>greenhouse effect</em>).</li>
+                            <li><strong>More CO₂ → more warming:</strong> Adding CO₂ thickens the IR-absorbing "blanket," so a larger fraction of outgoing infrared is intercepted. The surface must warm to a higher temperature to balance incoming solar energy.</li>
+                            <li><strong>Positive feedbacks amplify the warming:</strong> Warmer air holds more water vapor (itself a powerful greenhouse gas → <em>water-vapor feedback</em>), and melting ice/snow exposes darker land and ocean (<em>ice-albedo feedback</em>), absorbing even more solar energy. These feedbacks roughly double the direct CO₂ warming.</li>
+                        </ol>
+                        <p><strong>Result:</strong> CO₂ rising from ~280 ppm pre-industrial to ~420 ppm today has driven about 1.2 °C of global warming.</p>
+                    </div>
+                </div>
+
+                <div class="essay-question" data-essay="2">
+                    <h4>FRQ 2. Explain how warming affects organisms and their ecological niches. Include at least three distinct mechanisms (e.g., range shifts, phenological mismatches, niche compression, mutualism disruption) and give a specific organism or ecosystem example for each.</h4>
+                    <textarea class="essay-textarea" id="essay2" placeholder="Write your response here. Be sure to define 'niche' and connect each mechanism to a real example."></textarea>
+                    <button class="show-answer-btn" data-target="modelAnswer2">Show Model Answer</button>
+                    <div class="model-answer" id="modelAnswer2">
+                        <h5>Model Answer</h5>
+                        <p><strong>Definition:</strong> An organism's <em>ecological niche</em> is the full set of biotic and abiotic conditions in which it can survive and reproduce — temperature range, moisture, food sources, breeding cues, and interactions with other species. Warming disrupts niches in several ways:</p>
+                        <ol>
+                            <li><strong>Geographic range shifts:</strong> Species track their preferred climate by moving toward the poles or to higher elevations. Example: many North American tree species are migrating northward, and marine fish are shifting ranges by ~70 km per decade.</li>
+                            <li><strong>Phenological mismatches:</strong> Life-cycle events (flowering, hatching, migration) are often triggered by temperature cues. When interacting species respond differently, their timing decouples. Example: pied flycatchers arrive at breeding sites <em>after</em> the peak caterpillar emergence has already passed, reducing chick survival.</li>
+                            <li><strong>Niche compression and extinction:</strong> Mountaintop and polar species have nowhere cooler to retreat to — their niche literally disappears. Examples: American pikas going locally extinct on warming mountaintops; polar bears losing sea-ice hunting platforms.</li>
+                            <li><strong>Ocean warming and acidification:</strong> Warmer water expels symbiotic zooxanthellae from corals (<em>coral bleaching</em>), and CO₂ dissolved as carbonic acid lowers ocean pH, dissolving CaCO₃ shells of mollusks, plankton, and corals — undermining whole marine food webs.</li>
+                            <li><strong>Disrupted mutualisms:</strong> Pollinators and the plants they pollinate, or mycorrhizal fungi and tree roots, evolved under specific climate conditions. Warming can separate partners spatially or temporally, weakening both species.</li>
+                            <li><strong>Winners and losers / community reshuffling:</strong> Generalists, invasive species, and disease vectors (mosquitoes carrying malaria, ticks carrying Lyme) often expand into newly suitable areas, while specialists decline. This restructures community composition and reduces overall biodiversity.</li>
+                        </ol>
+                        <p><strong>Big picture:</strong> Warming is reshuffling ecosystems faster than many species can evolve or migrate, producing range shifts, mismatches, and extinctions — a global reorganization of where organisms live and how they interact.</p>
+                    </div>
+                </div>
+
+                <div class="compile-section">
+                    <input type="text" class="student-name-input" id="studentName" placeholder="Your name (for submission)">
+                    <button class="compile-btn" id="compileCopyBtn">Compile &amp; Copy My Work</button>
+                    <div class="compile-status" id="compileStatus"></div>
                 </div>
             </div>
         </div>
@@ -1627,7 +1815,7 @@
                 playInterval = setInterval(() => {
                     let year = parseInt(timelineSlider.value);
                     if (year < 2024) {
-                        year += 2;
+                        year += 1;
                         timelineSlider.value = year;
                         updateTimeline(year);
                     } else {
@@ -1635,20 +1823,20 @@
                         playBtn.textContent = '▶ Play';
                         isPlaying = false;
                     }
-                }, 100);
+                }, 150);
             }
         });
 
         // Quiz Functionality
         const answers = {
-            1: { correct: 'd', explanation: 'Sedimentary rocks (mainly limestone/calcium carbonate) contain about 65 million Gt C - roughly 90% of all carbon on Earth. The deep ocean has ~37,000 Gt C, forests ~550 Gt C, and the atmosphere ~860 Gt C.' },
+            1: { correct: 'a', explanation: 'Sedimentary rocks (mainly limestone/calcium carbonate) contain about 65 million Gt C - roughly 90% of all carbon on Earth. The deep ocean has ~37,000 Gt C, forests ~550 Gt C, and the atmosphere ~860 Gt C.' },
             2: { correct: 'b', explanation: 'A carbon atom stays in the atmosphere for about 4-5 years on average before being taken up by a plant (photosynthesis) or dissolved in the ocean. However, the perturbation from excess CO₂ takes much longer (centuries) to be fully absorbed.' },
-            3: { correct: 'b', explanation: 'Fossil fuels contain carbon that was removed from the atmosphere and buried over hundreds of millions of years. Burning them releases this ancient carbon back to the atmosphere in just decades - about a million times faster than it was stored. The fast carbon cycle cannot absorb this excess quickly enough.' },
+            3: { correct: 'd', explanation: 'Fossil fuels contain carbon that was removed from the atmosphere and buried over hundreds of millions of years. Burning them releases this ancient carbon back to the atmosphere in just decades - about a million times faster than it was stored. The fast carbon cycle cannot absorb this excess quickly enough.' },
             4: { correct: 'b', explanation: 'The ocean absorbs approximately 25% of human CO₂ emissions (about 2.5 Gt C/year). Land ecosystems absorb another ~25%. The remaining ~50% accumulates in the atmosphere, causing warming.' },
-            5: { correct: 'c', explanation: 'Weathering of silicate rocks is a geological process that operates over millions of years: CO₂ + CaSiO₃ → CaCO₃ + SiO₂. This is a key long-term carbon sink. Photosynthesis, respiration, and decomposition are all part of the fast (biological) carbon cycle.' },
+            5: { correct: 'a', explanation: 'Weathering of silicate rocks is a geological process that operates over millions of years: CO₂ + CaSiO₃ → CaCO₃ + SiO₂. This is a key long-term carbon sink. Photosynthesis, respiration, and decomposition are all part of the fast (biological) carbon cycle.' },
             6: { correct: 'c', explanation: 'CO₂ has increased from ~280 ppm pre-industrial to ~420 ppm today - an increase of about 50% (140 ppm / 280 ppm = 50%). This is the highest level in at least 800,000 years.' },
-            7: { correct: 'c', explanation: 'Growing forests absorb CO₂ through photosynthesis, storing carbon in wood, leaves, and roots. Volcanic eruptions release CO₂. Forest fires and decomposition release stored carbon back to the atmosphere.' },
-            8: { correct: 'b', explanation: 'When CO₂ dissolves in seawater, it forms carbonic acid (H₂CO₃), which releases H⁺ ions and lowers pH. Ocean pH has dropped from 8.2 to 8.1 since pre-industrial times - a 30% increase in acidity. This threatens shell-forming organisms like corals and mollusks.' }
+            7: { correct: 'd', explanation: 'Growing forests absorb CO₂ through photosynthesis, storing carbon in wood, leaves, and roots. Volcanic eruptions release CO₂. Forest fires and decomposition release stored carbon back to the atmosphere.' },
+            8: { correct: 'c', explanation: 'When CO₂ dissolves in seawater, it forms carbonic acid (H₂CO₃), which releases H⁺ ions and lowers pH. Ocean pH has dropped from 8.2 to 8.1 since pre-industrial times - a 30% increase in acidity. This threatens shell-forming organisms like corals and mollusks.' }
         };
 
         const quizOptions = document.querySelectorAll('.quiz-option');
@@ -1715,6 +1903,109 @@
             }
 
             scoreDisplay.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Essay: Show Model Answer buttons
+        document.querySelectorAll('.show-answer-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetId = btn.dataset.target;
+                const essayQ = btn.closest('.essay-question');
+                const textarea = essayQ.querySelector('.essay-textarea');
+
+                if (!textarea.value.trim()) {
+                    if (!confirm('You have not written a response yet. Reveal the model answer anyway?')) {
+                        return;
+                    }
+                }
+
+                const modelAnswer = document.getElementById(targetId);
+                modelAnswer.classList.add('show');
+                btn.disabled = true;
+                btn.textContent = 'Model Answer Revealed';
+                modelAnswer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+        });
+
+        // Compile & Copy My Work
+        document.getElementById('compileCopyBtn').addEventListener('click', async () => {
+            const status = document.getElementById('compileStatus');
+            const studentName = document.getElementById('studentName').value.trim() || '(name not provided)';
+            const dateStr = new Date().toLocaleDateString();
+
+            // Gather MC answers
+            const mcLines = [];
+            const correctLetters = { 1:'A', 2:'B', 3:'D', 4:'B', 5:'A', 6:'C', 7:'D', 8:'C' };
+            document.querySelectorAll('.quiz-question').forEach(q => {
+                const num = q.dataset.question;
+                const qText = q.querySelector('h4').textContent.trim();
+                const selected = q.querySelector('.quiz-option.selected');
+                const chosen = selected ? selected.dataset.answer.toUpperCase() : '—';
+                const correct = correctLetters[num];
+                const mark = chosen === correct ? '✓' : (chosen === '—' ? '·' : '✗');
+                mcLines.push(`${qText}\n   My answer: ${chosen}   Correct: ${correct}   ${mark}`);
+            });
+
+            // Gather essays
+            const essay1 = document.getElementById('essay1').value.trim() || '(no response)';
+            const essay2 = document.getElementById('essay2').value.trim() || '(no response)';
+
+            const essay1Q = document.querySelector('[data-essay="1"] h4').textContent.trim();
+            const essay2Q = document.querySelector('[data-essay="2"] h4').textContent.trim();
+
+            // Score line
+            const scoreText = document.getElementById('scoreText').textContent || 'Not yet checked';
+
+            const output = [
+                'CARBON CYCLE — KNOWLEDGE CHECK SUBMISSION',
+                '==========================================',
+                `Name: ${studentName}`,
+                `Date: ${dateStr}`,
+                `Multiple Choice Score: ${scoreText.replace('Your Score: ', '')}`,
+                '',
+                '--- MULTIPLE CHOICE ---',
+                '',
+                mcLines.join('\n\n'),
+                '',
+                '--- FREE RESPONSE ---',
+                '',
+                essay1Q,
+                '',
+                essay1,
+                '',
+                '------',
+                '',
+                essay2Q,
+                '',
+                essay2,
+                '',
+                '=== END OF SUBMISSION ==='
+            ].join('\n');
+
+            try {
+                await navigator.clipboard.writeText(output);
+                status.style.color = '#00ff88';
+                status.textContent = '✓ Copied to clipboard! Paste into your assignment to turn in.';
+            } catch (err) {
+                // Fallback: select text in a temporary textarea
+                const ta = document.createElement('textarea');
+                ta.value = output;
+                document.body.appendChild(ta);
+                ta.select();
+                try {
+                    document.execCommand('copy');
+                    status.style.color = '#00ff88';
+                    status.textContent = '✓ Copied to clipboard! Paste into your assignment to turn in.';
+                } catch (e) {
+                    status.style.color = '#ff6b6b';
+                    status.textContent = 'Copy failed — please select text manually from the box below.';
+                    // Show the text for manual copy
+                    const pre = document.createElement('pre');
+                    pre.style.cssText = 'margin-top:15px;padding:15px;background:rgba(0,0,0,0.3);border-radius:8px;text-align:left;white-space:pre-wrap;max-height:300px;overflow:auto;color:#fff;font-size:0.85rem;';
+                    pre.textContent = output;
+                    status.parentNode.appendChild(pre);
+                }
+                document.body.removeChild(ta);
+            }
         });
 
         // Pool card interactions
@@ -1841,7 +2132,7 @@
               desc: 'Plants break down organic molecules for energy, releasing about half the carbon they fix back to the atmosphere as CO\u2082.' },
             { id: 'litter-fall', from: 'pool-vegetation', to: 'pool-soil', rate: '60 Gt C/yr', label: 'Litter & Decomp', type: 'natural',
               desc: 'Dead leaves, branches, and roots fall to the ground and are gradually incorporated into the soil by decomposers.' },
-            { id: 'soil-respiration', from: 'pool-soil', to: 'pool-atmosphere', rate: '60 Gt C/yr', label: 'Soil Respiration', type: 'natural',
+            { id: 'soil-respiration', from: 'pool-soil', to: 'pool-atmosphere', rate: '60 Gt C/yr', label: 'Soil Respiration', type: 'natural', curveBias: -0.1,
               desc: 'Soil microbes and fungi decompose organic matter, releasing CO\u2082. Rate increases with temperature and moisture.' },
             { id: 'ocean-uptake', from: 'pool-atmosphere', to: 'pool-surface-ocean', rate: '90 Gt C/yr', label: 'Ocean Uptake', type: 'natural',
               desc: 'CO\u2082 dissolves into cold surface ocean waters. The ocean absorbs more CO\u2082 at high latitudes where water is cold.' },
@@ -1856,6 +2147,53 @@
             { id: 'deforestation', from: 'pool-vegetation', to: 'pool-atmosphere', rate: '~1.5 Gt C/yr', label: 'Deforestation', type: 'human',
               desc: 'Clearing and burning forests releases stored carbon rapidly. Tropical deforestation is the main contributor.' }
         ];
+
+        // Shared cache of path geometry per flux id. Populated by computeFluxGeometry()
+        // and consumed by both drawFluxArrows() and createParticles() so the particles
+        // always ride on the same Bezier curve as the arrow.
+        let fluxGeometry = {};
+
+        function computeFluxGeometry() {
+            fluxGeometry = {};
+
+            // Track same-direction duplicates so we can spread curves apart
+            const directionCount = {};
+            const directionIndex = {};
+            fluxes.forEach(flux => {
+                const dirKey = flux.from + '|' + flux.to;
+                directionCount[dirKey] = (directionCount[dirKey] || 0) + 1;
+            });
+
+            fluxes.forEach(flux => {
+                const from = getPoolCenter(flux.from);
+                const to = getPoolCenter(flux.to);
+
+                const dx = to.x - from.x;
+                const dy = to.y - from.y;
+                const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+
+                const nx = -dy / dist;
+                const ny = dx / dist;
+
+                const dirKey = flux.from + '|' + flux.to;
+                const dirTotal = directionCount[dirKey];
+                if (!directionIndex[dirKey]) directionIndex[dirKey] = 0;
+                const dirIdx = directionIndex[dirKey]++;
+
+                let curveAmount = dist * 0.2;
+                if (dirTotal > 1) {
+                    curveAmount = dist * (0.15 + dirIdx * 0.2);
+                }
+                if (flux.curveBias !== undefined) {
+                    curveAmount = dist * flux.curveBias;
+                }
+
+                const cx = (from.x + to.x) / 2 + nx * curveAmount;
+                const cy = (from.y + to.y) / 2 + ny * curveAmount;
+
+                fluxGeometry[flux.id] = { from, to, cx, cy, nx, ny, curveAmount };
+            });
+        }
 
         function drawFluxArrows() {
             // Clear existing SVG content
@@ -1883,49 +2221,11 @@
 
             fluxSvg.appendChild(defs);
 
-            // Count how many fluxes share the same endpoint pair so we can offset them
-            const endpointCount = {};
-            const endpointIndex = {};
-            fluxes.forEach(flux => {
-                // Use sorted key so A->B and B->A share a group
-                const key = [flux.from, flux.to].sort().join('|');
-                endpointCount[key] = (endpointCount[key] || 0) + 1;
-            });
-            // Also track same-direction duplicates for additional spreading
-            const directionCount = {};
-            const directionIndex = {};
-            fluxes.forEach(flux => {
-                const dirKey = flux.from + '|' + flux.to;
-                directionCount[dirKey] = (directionCount[dirKey] || 0) + 1;
-            });
+            computeFluxGeometry();
 
             fluxes.forEach(flux => {
-                const from = getPoolCenter(flux.from);
-                const to = getPoolCenter(flux.to);
-
-                // Calculate a curved path with offset for bidirectional arrows
-                const dx = to.x - from.x;
-                const dy = to.y - from.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-
-                // Perpendicular offset for curve
-                const nx = -dy / dist;
-                const ny = dx / dist;
-
-                // Spread apart fluxes that share the same from->to direction
-                const dirKey = flux.from + '|' + flux.to;
-                const dirTotal = directionCount[dirKey];
-                if (!directionIndex[dirKey]) directionIndex[dirKey] = 0;
-                const dirIdx = directionIndex[dirKey]++;
-
-                let curveAmount = dist * 0.2;
-                if (dirTotal > 1) {
-                    // Spread curves apart: first gets 0.15, second gets 0.35, etc.
-                    curveAmount = dist * (0.15 + dirIdx * 0.2);
-                }
-
-                const cx = (from.x + to.x) / 2 + nx * curveAmount;
-                const cy = (from.y + to.y) / 2 + ny * curveAmount;
+                const geom = fluxGeometry[flux.id];
+                const { from, to, cx, cy, nx, ny, curveAmount } = geom;
 
                 const pathD = `M ${from.x} ${from.y} Q ${cx} ${cy} ${to.x} ${to.y}`;
 
@@ -1939,9 +2239,10 @@
                 pathEl.style.pointerEvents = 'stroke';
                 fluxSvg.appendChild(pathEl);
 
-                // Add label at midpoint of curve
-                const labelX = cx;
-                const labelY = cy;
+                // Place label at the actual Bezier midpoint (t=0.5) so it sits on the curve,
+                // not at the control point which can be far off the visible curve for large offsets.
+                const labelX = (from.x + to.x) / 2 + nx * curveAmount * 0.5;
+                const labelY = (from.y + to.y) / 2 + ny * curveAmount * 0.5;
                 const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
                 text.setAttribute('x', labelX);
                 text.setAttribute('y', labelY);
@@ -2059,16 +2360,11 @@
             canvas.querySelectorAll('.co2-particle').forEach(p => p.remove());
 
             fluxes.forEach(flux => {
-                const from = getPoolCenter(flux.from);
-                const to = getPoolCenter(flux.to);
-                const dx = to.x - from.x;
-                const dy = to.y - from.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                const nx = -dy / dist;
-                const ny = dx / dist;
-                const curveAmount = dist * 0.2;
-                const cx = (from.x + to.x) / 2 + nx * curveAmount;
-                const cy = (from.y + to.y) / 2 + ny * curveAmount;
+                // Reuse the same geometry the arrows were drawn with so particles
+                // follow the identical Bezier curve (not a default 0.2 offset).
+                const geom = fluxGeometry[flux.id];
+                if (!geom) return;
+                const { from, to, cx, cy } = geom;
 
                 // Number of particles proportional to flux rate
                 const rateNum = parseFloat(flux.rate) || 1;
